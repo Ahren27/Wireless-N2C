@@ -6,11 +6,11 @@
  */
 
 #include "main.h"
+#include "I2C.h"
 #include "FreeRTOS.h"                   // ARM.FreeRTOS::RTOS:Core
 #include "task.h"                       // ARM.FreeRTOS::RTOS:Core
 #include "event_groups.h"               // ARM.FreeRTOS::RTOS:Event Groups
 #include "semphr.h"                     // ARM.FreeRTOS::RTOS:Core
-#include "I2C.h"
 
 void I2C_GPIO_Init1(void) {
 	// Configure GPIOB for I2C
@@ -59,28 +59,24 @@ void I2C_GPIO_Init2(void) {
 
 void I2C_init1() {
 	I2C1->CR1 &= ~I2C_CR1_PE;
+	//HAL_Delay(1);
 
 	I2C1->CR1 &= ~I2C_CR1_ANFOFF;
 	I2C1->CR1 &= ~I2C_CR1_NOSTRETCH;
 
 	I2C1->TIMINGR = 0X0000004;
 
-//	NVIC_SetPriority(I2C1_EV_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
-//	NVIC_EnableIRQ(I2C1_EV_IRQn);
-
 	I2C1->CR1 |= I2C_CR1_PE;
 }
 
 void I2C_init2() {
 	I2C2->CR1 &= ~I2C_CR1_PE;
+	//HAL_Delay(1);
 
 	I2C2->CR1 &= ~I2C_CR1_ANFOFF;
 	I2C2->CR1 &= ~I2C_CR1_NOSTRETCH;
 
 	I2C2->TIMINGR = 0X0000004;
-
-//	NVIC_SetPriority(I2C2_EV_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
-//	NVIC_EnableIRQ(I2C2_EV_IRQn);
 
 	I2C2->CR1 |= I2C_CR1_PE;
 }
@@ -93,6 +89,8 @@ void N2C_Config1() {
 	uint8_t byteSender = 0;
 
 	for (byteSender = 0; byteSender <= 1; byteSender++) {
+		I2C_init1();
+
 		/* Clear and then set AUTOEND bit to 1 */
 		I2C1->CR2 &= ~(I2C_CR2_AUTOEND);
 		I2C1->CR2 |= (I2C_CR2_AUTOEND);
@@ -134,15 +132,15 @@ void N2C_Config1() {
 		/* Send Data */
 		I2C1->TXDR = data;
 
-		/* Delay for 1ms */
-		vTaskDelay(pdMS_TO_TICKS(1));  // FreeRTOS delay function
-
 		/* Wait for STOPF */
 		while (!(I2C1->ISR & I2C_ISR_STOPF))
 			;
 
 		/* Increment step (To send 2nd data when byteSender is 0) */
 		step++;
+
+		/* Delay for 1ms */
+		vTaskDelay(pdMS_TO_TICKS(1));
 	}
 }
 
@@ -151,10 +149,13 @@ void N2C_Read1(uint8_t *measurments) {
 	uint8_t data = 0;
 
 	///// Write Reading Byte /////
+
+	I2C_init1();
+
 	I2C1->CR2 = 0;
 
 	/* Set AUTOEND bit to 1 */
-//	I2C1->CR2 |= I2C_CR2_AUTOEND;
+	I2C1->CR2 |= I2C_CR2_AUTOEND;
 
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
@@ -180,14 +181,14 @@ void N2C_Read1(uint8_t *measurments) {
 	data = N2C_data(step);
 
 	/* Send Data */
-	I2C1->TXDR = data;
+	I2C1->TXDR |= data;
 
 	/* Wait for STOPF */
 	while (!(I2C1->ISR & I2C_ISR_STOPF))
 		;
 
 	/* Delay for 1ms */
-	// HAL_Delay(1);
+	vTaskDelay(pdMS_TO_TICKS(1));
 
 	///// Read Measurements /////
 
@@ -221,7 +222,8 @@ void N2C_Read1(uint8_t *measurments) {
 
 	I2C1->CR2 |= (I2C_CR2_STOP);
 
-	// HAL_Delay(1);
+	//HAL_Delay(1);
+	vTaskDelay(pdMS_TO_TICKS(1));
 }
 
 /******************************* NUNCHUCK #2 ********************************/
@@ -232,6 +234,8 @@ void N2C_Config2() {
 	uint8_t byteSender = 0;
 
 	for (byteSender = 0; byteSender <= 1; byteSender++) {
+		I2C_init2();
+
 		/* Clear and then set AUTOEND bit to 1 */
 		I2C2->CR2 &= ~(I2C_CR2_AUTOEND);
 		I2C2->CR2 |= (I2C_CR2_AUTOEND);
@@ -281,7 +285,8 @@ void N2C_Config2() {
 		step++;
 
 		/* Delay for 1ms */
-		// HAL_Delay(1);
+		//HAL_Delay(1);
+		vTaskDelay(pdMS_TO_TICKS(1));
 	}
 }
 
@@ -291,10 +296,12 @@ void N2C_Read2(uint8_t *measurments) {
 
 	///// Write Reading Byte /////
 
+	I2C_init2();
+
 	I2C2->CR2 = 0;
 
 	/* Set AUTOEND bit to 1 */
-//	I2C2->CR2 |= I2C_CR2_AUTOEND;
+	I2C2->CR2 |= I2C_CR2_AUTOEND;
 
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
@@ -325,6 +332,10 @@ void N2C_Read2(uint8_t *measurments) {
 	/* Wait for STOPF */
 	while (!(I2C2->ISR & I2C_ISR_STOPF))
 		;
+
+	/* Delay for 1ms */
+	//HAL_Delay(1);
+	vTaskDelay(pdMS_TO_TICKS(1));
 
 	///// Read Measurements /////
 
@@ -357,6 +368,9 @@ void N2C_Read2(uint8_t *measurments) {
 	}
 
 	I2C2->CR2 |= (I2C_CR2_STOP);
+
+	//HAL_Delay(1);
+	vTaskDelay(pdMS_TO_TICKS(1));
 }
 
 /* Returns the appropriate byte to be sent over I2C */

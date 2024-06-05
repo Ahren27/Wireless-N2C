@@ -1,9 +1,9 @@
 ../Core/Src/i2c.c:15:6:I2C_GPIO_Init1	4	static
 ../Core/Src/i2c.c:37:6:I2C_GPIO_Init2	4	static
 ../Core/Src/i2c.c:60:6:I2C_init1	4	static
-../Core/Src/i2c.c:74:6:I2C_init2	4	static
-../Core/Src/i2c.c:90:6:N2C_Config1	16	static
-../Core/Src/i2c.c:149:6:N2C_Read1	24	static
-../Core/Src/i2c.c:229:6:N2C_Config2	16	static
-../Core/Src/i2c.c:288:6:N2C_Read2	24	static
-../Core/Src/i2c.c:363:9:N2C_data	24	static
+../Core/Src/i2c.c:72:6:I2C_init2	4	static
+../Core/Src/i2c.c:86:6:N2C_Config1	16	static
+../Core/Src/i2c.c:147:6:N2C_Read1	24	static
+../Core/Src/i2c.c:231:6:N2C_Config2	16	static
+../Core/Src/i2c.c:293:6:N2C_Read2	24	static
+../Core/Src/i2c.c:377:9:N2C_data	24	static

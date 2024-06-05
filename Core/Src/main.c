@@ -104,7 +104,8 @@ void print_data(void);
 /* Task function prototypes --------------------------------------------------*/
 void Task1(void *argument);
 void Task2(void *argument);
-	BaseType_t retVal; // used for checking task creation
+
+BaseType_t retVal; // used for checking task creation
 
 /**
  * @brief  The application entry point.
@@ -173,8 +174,8 @@ void Task1(void *argument) {
 			UART_Init();
 			I2C_GPIO_Init1();
 			I2C_GPIO_Init2();
-			I2C_init1();
-			I2C_init2();
+			//I2C_init1();
+			//I2C_init2();
 			N2C_Config1();
 			N2C_Config2();
 
