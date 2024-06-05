@@ -148,6 +148,8 @@ int main(void) {
 			;
 	}
 
+	createI2CSemaphores();
+
 	/* Start scheduler */
 	vTaskStartScheduler();
 

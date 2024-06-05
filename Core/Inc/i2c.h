@@ -10,6 +10,8 @@
 
 #define N2C_ADDR 0X52
 
+void createI2CSemaphores(void);
+
 void I2C_init1();
 void I2C_GPIO_Init1(void);
 void N2C_Config1();
