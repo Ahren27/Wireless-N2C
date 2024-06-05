@@ -6,53 +6,11 @@
  */
 
 #include "main.h"
-#include "I2C.h"
 #include "FreeRTOS.h"                   // ARM.FreeRTOS::RTOS:Core
 #include "task.h"                       // ARM.FreeRTOS::RTOS:Core
 #include "event_groups.h"               // ARM.FreeRTOS::RTOS:Event Groups
 #include "semphr.h"                     // ARM.FreeRTOS::RTOS:Core
-
-SemaphoreHandle_t txCompleteSemaphore, stopCompleteSemaphore,
-		rxCompleteSemaphore, txCompleteSemaphore2, stopCompleteSemaphore2,
-		rxCompleteSemaphore2;
-
-void createI2CSemaphores(void) {
-	txCompleteSemaphore = xSemaphoreCreateBinary();
-	if (txCompleteSemaphore == NULL) {
-		while (1)
-			;
-	} // check if binary semaphore creation failed
-
-	stopCompleteSemaphore = xSemaphoreCreateBinary();
-	if (stopCompleteSemaphore == NULL) {
-		while (1)
-			;
-	} // check if binary semaphore creation failed
-
-	rxCompleteSemaphore = xSemaphoreCreateBinary();
-	if (rxCompleteSemaphore == NULL) {
-		while (1)
-			;
-	} // check if binary semaphore creation failed
-
-	txCompleteSemaphore2 = xSemaphoreCreateBinary();
-	if (txCompleteSemaphore2 == NULL) {
-		while (1)
-			;
-	} // check if binary semaphore creation failed
-
-	stopCompleteSemaphore2 = xSemaphoreCreateBinary();
-	if (stopCompleteSemaphore2 == NULL) {
-		while (1)
-			;
-	} // check if binary semaphore creation failed
-
-	rxCompleteSemaphore2 = xSemaphoreCreateBinary();
-	if (rxCompleteSemaphore2 == NULL) {
-		while (1)
-			;
-	} // check if binary semaphore creation failed
-}
+#include "I2C.h"
 
 void I2C_GPIO_Init1(void) {
 	// Configure GPIOB for I2C
@@ -107,11 +65,8 @@ void I2C_init1() {
 
 	I2C1->TIMINGR = 0X0000004;
 
-	// Enable I2C interrupts
-	I2C1->CR1 |= I2C_CR1_TXIE | I2C_CR1_RXNE | I2C_CR1_STOPIE | I2C_CR1_ERRIE;
-
-	NVIC_SetPriority(I2C1_EV_IRQn, 5);
-	NVIC_EnableIRQ(I2C1_EV_IRQn);
+//	NVIC_SetPriority(I2C1_EV_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
+//	NVIC_EnableIRQ(I2C1_EV_IRQn);
 
 	I2C1->CR1 |= I2C_CR1_PE;
 }
@@ -124,11 +79,8 @@ void I2C_init2() {
 
 	I2C2->TIMINGR = 0X0000004;
 
-	// Enable I2C interrupts
-	I2C2->CR1 |= I2C_CR1_TXIE | I2C_CR1_RXNE | I2C_CR1_STOPIE | I2C_CR1_ERRIE;
-
-	NVIC_SetPriority(I2C2_EV_IRQn, 5);
-	NVIC_EnableIRQ(I2C2_EV_IRQn);
+//	NVIC_SetPriority(I2C2_EV_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
+//	NVIC_EnableIRQ(I2C2_EV_IRQn);
 
 	I2C2->CR1 |= I2C_CR1_PE;
 }
@@ -141,7 +93,6 @@ void N2C_Config1() {
 	uint8_t byteSender = 0;
 
 	for (byteSender = 0; byteSender <= 1; byteSender++) {
-
 		/* Clear and then set AUTOEND bit to 1 */
 		I2C1->CR2 &= ~(I2C_CR2_AUTOEND);
 		I2C1->CR2 |= (I2C_CR2_AUTOEND);
@@ -160,33 +111,38 @@ void N2C_Config1() {
 		/* Set START bit to 1 */
 		I2C1->CR2 |= I2C_CR2_START;
 
-		/* Wait for TXIS */
-		if (xSemaphoreTake(txCompleteSemaphore, portMAX_DELAY) == pdTRUE) {
-			/* Get Data */
-			data = N2C_data(step);
+		/* Wait for ACK */
+		while (!(I2C1->ISR & I2C_ISR_TXIS))
+			;
 
-			/* Send Data */
-			I2C1->TXDR = data;
+		/* Get Data */
+		data = N2C_data(step);
 
-			/* Wait for TXIS */
-			if (xSemaphoreTake(txCompleteSemaphore, portMAX_DELAY) == pdTRUE) {
-				/* Increment step (To send 2nd Byte) */
-				step++;
+		/* Send Data */
+		I2C1->TXDR = data;
 
-				/* Get Data */
-				data = N2C_data(step);
+		/* Wait for ACK */
+		while (!(I2C1->ISR & I2C_ISR_TXIS))
+			;
 
-				/* Send Data */
-				I2C1->TXDR = data;
+		/* Increment step (To send 2nd Byte) */
+		step++;
 
-				/* Wait for STOPF */
-				if (xSemaphoreTake(stopCompleteSemaphore,
-						portMAX_DELAY) == pdTRUE) {
-					/* Increment step (To send 2nd data when byteSender is 0) */
-					step++;
-				}
-			}
-		}
+		/* Get Data */
+		data = N2C_data(step);
+
+		/* Send Data */
+		I2C1->TXDR = data;
+
+		/* Delay for 1ms */
+		vTaskDelay(pdMS_TO_TICKS(1));  // FreeRTOS delay function
+
+		/* Wait for STOPF */
+		while (!(I2C1->ISR & I2C_ISR_STOPF))
+			;
+
+		/* Increment step (To send 2nd data when byteSender is 0) */
+		step++;
 	}
 }
 
@@ -195,11 +151,10 @@ void N2C_Read1(uint8_t *measurments) {
 	uint8_t data = 0;
 
 	///// Write Reading Byte /////
-
 	I2C1->CR2 = 0;
 
 	/* Set AUTOEND bit to 1 */
-	I2C1->CR2 |= I2C_CR2_AUTOEND;
+//	I2C1->CR2 |= I2C_CR2_AUTOEND;
 
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
@@ -217,48 +172,56 @@ void N2C_Read1(uint8_t *measurments) {
 	/* Set START bit to 1 */
 	I2C1->CR2 |= I2C_CR2_START;
 
-	/* Wait for TXIS */
-	if (xSemaphoreTake(txCompleteSemaphore, portMAX_DELAY) == pdTRUE) {
-		/* Get Data */
-		data = N2C_data(step);
+	/* Wait for ACK */
+	while (!(I2C1->ISR & I2C_ISR_TXIS))
+		;
 
-		/* Send Data */
-		I2C1->TXDR |= data;
+	/* Get Data */
+	data = N2C_data(step);
 
-		/* Wait for STOPF */
-		if (xSemaphoreTake(stopCompleteSemaphore, portMAX_DELAY) == pdTRUE) {
-			///// Read Measurements /////
+	/* Send Data */
+	I2C1->TXDR = data;
 
-			I2C1->CR2 &= ~I2C_CR2_AUTOEND;
-			/* Set AUTOEND bit to 1 */
-			//I2C1 -> CR2 |= I2C_CR2_AUTOEND;
-			/* NBYTES = (Amount of Data Needed to Be Sent) */
-			/* SADD = Slave Address for Nunchuck */
-			I2C1->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+	/* Wait for STOPF */
+	while (!(I2C1->ISR & I2C_ISR_STOPF))
+		;
 
-			/* NBYTES = 6 */
-			I2C1->CR2 |= (6 << I2C_CR2_NBYTES_Pos);
+	/* Delay for 1ms */
+	// HAL_Delay(1);
 
-			/* Set RD_WRN bit to read */
-			I2C1->CR2 |= I2C_CR2_RD_WRN;
+	///// Read Measurements /////
 
-			/* Send Address */
-			I2C1->CR2 |= (N2C_ADDR << 1);
+	I2C1->CR2 &= ~I2C_CR2_AUTOEND;
+	/* Set AUTOEND bit to 1 */
+	//I2C1 -> CR2 |= I2C_CR2_AUTOEND;
+	/* NBYTES = (Amount of Data Needed to Be Sent) */
+	/* SADD = Slave Address for Nunchuck */
+	I2C1->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
 
-			/* Set START bit to 1 */
-			I2C1->CR2 |= I2C_CR2_START;
+	/* NBYTES = 6 */
+	I2C1->CR2 |= (6 << I2C_CR2_NBYTES_Pos);
 
-			for (uint8_t i = 0; i < 6; i++) {
-				/* Wait for RXNE */
-				if (xSemaphoreTake(rxCompleteSemaphore, portMAX_DELAY) == pdTRUE) {
-					/* Receive byte */
-					measurments[i] = I2C1->RXDR;
-				}
-			}
+	/* Set RD_WRN bit to read */
+	I2C1->CR2 |= I2C_CR2_RD_WRN;
 
-			I2C1->CR2 |= (I2C_CR2_STOP);
-		}
+	/* Send Address */
+	I2C1->CR2 |= (N2C_ADDR << 1);
+
+	/* Set START bit to 1 */
+	I2C1->CR2 |= I2C_CR2_START;
+
+	for (uint8_t i = 0; i < 6; i++) {
+		/* Wait until byte is received */
+		while (!(I2C1->ISR & I2C_ISR_RXNE))
+			;
+
+		/* Receive byte */
+		measurments[i] = I2C1->RXDR;
 	}
+
+	I2C1->CR2 |= (I2C_CR2_STOP);
+
+	// HAL_Delay(1);
 }
 
 /******************************* NUNCHUCK #2 ********************************/
@@ -287,33 +250,38 @@ void N2C_Config2() {
 		/* Set START bit to 1 */
 		I2C2->CR2 |= I2C_CR2_START;
 
-		/* Wait for TXIS */
-		if (xSemaphoreTake(txCompleteSemaphore2, portMAX_DELAY) == pdTRUE) {
-			/* Get Data */
-			data = N2C_data(step);
+		/* Wait for ACK */
+		while (!(I2C2->ISR & I2C_ISR_TXIS))
+			;
 
-			/* Send Data */
-			I2C2->TXDR = data;
+		/* Get Data */
+		data = N2C_data(step);
 
-			/* Wait for TXIS */
-			if (xSemaphoreTake(txCompleteSemaphore2, portMAX_DELAY) == pdTRUE) {
-				/* Increment step (To send 2nd Byte) */
-				step++;
+		/* Send Data */
+		I2C2->TXDR = data;
 
-				/* Get Data */
-				data = N2C_data(step);
+		/* Wait for ACK */
+		while (!(I2C2->ISR & I2C_ISR_TXIS))
+			;
 
-				/* Send Data */
-				I2C2->TXDR = data;
+		/* Increment step (To send 2nd Byte) */
+		step++;
 
-				/* Wait for STOPF */
-				if (xSemaphoreTake(stopCompleteSemaphore2,
-						portMAX_DELAY) == pdTRUE) {
-					/* Increment step (To send 2nd data when byteSender is 0) */
-					step++;
-				}
-			}
-		}
+		/* Get Data */
+		data = N2C_data(step);
+
+		/* Send Data */
+		I2C2->TXDR = data;
+
+		/* Wait for STOPF */
+		while (!(I2C2->ISR & I2C_ISR_STOPF))
+			;
+
+		/* Increment step (To send 2nd data when byteSender is 0) */
+		step++;
+
+		/* Delay for 1ms */
+		// HAL_Delay(1);
 	}
 }
 
@@ -326,7 +294,7 @@ void N2C_Read2(uint8_t *measurments) {
 	I2C2->CR2 = 0;
 
 	/* Set AUTOEND bit to 1 */
-	I2C2->CR2 |= I2C_CR2_AUTOEND;
+//	I2C2->CR2 |= I2C_CR2_AUTOEND;
 
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
@@ -358,10 +326,7 @@ void N2C_Read2(uint8_t *measurments) {
 	while (!(I2C2->ISR & I2C_ISR_STOPF))
 		;
 
-//	/* Delay for 1ms */
-//	HAL_Delay(1);
-
-///// Read Measurements /////
+	///// Read Measurements /////
 
 	I2C2->CR2 &= ~I2C_CR2_AUTOEND;
 	/* Set AUTOEND bit to 1 */
@@ -392,8 +357,6 @@ void N2C_Read2(uint8_t *measurments) {
 	}
 
 	I2C2->CR2 |= (I2C_CR2_STOP);
-
-//	HAL_Delay(1);
 }
 
 /* Returns the appropriate byte to be sent over I2C */
@@ -418,51 +381,3 @@ uint8_t N2C_data(uint8_t step) {
 
 	return data;
 }
-
-void I2C1_EV_IRQHandler(void) {
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-	if (I2C1->ISR & I2C_ISR_TXIS) {
-		// Handle TXIS event (ready to transmit next byte)
-		// Give the semaphore
-		xSemaphoreGiveFromISR(txCompleteSemaphore, &xHigherPriorityTaskWoken);
-	}
-
-	if (I2C1->ISR & I2C_ISR_RXNE) {
-		xSemaphoreGiveFromISR(rxCompleteSemaphore, &xHigherPriorityTaskWoken);
-	}
-
-	if (I2C1->ISR & I2C_ISR_STOPF) {
-		// Handle STOPF event (stop condition detected)
-		I2C1->ICR = I2C_ICR_STOPCF;  // Clear the STOPF flag
-		// Give the semaphore
-		xSemaphoreGiveFromISR(stopCompleteSemaphore, &xHigherPriorityTaskWoken);
-	}
-
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-}
-
-void I2C2_EV_IRQHandler(void) {
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-	if (I2C2->ISR & I2C_ISR_TXIS) {
-		// Handle TXIS event (ready to transmit next byte)
-		// Give the semaphore
-		xSemaphoreGiveFromISR(txCompleteSemaphore2, &xHigherPriorityTaskWoken);
-	}
-
-	if (I2C2->ISR & I2C_ISR_RXNE) {
-		xSemaphoreGiveFromISR(rxCompleteSemaphore2, &xHigherPriorityTaskWoken);
-	}
-
-	if (I2C2->ISR & I2C_ISR_STOPF) {
-		// Handle STOPF event (stop condition detected)
-		I2C2->ICR = I2C_ICR_STOPCF;  // Clear the STOPF flag
-		// Give the semaphore
-		xSemaphoreGiveFromISR(stopCompleteSemaphore2,
-				&xHigherPriorityTaskWoken);
-	}
-
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-}
-
