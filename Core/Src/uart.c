@@ -34,8 +34,7 @@ void UART_Init(void) {
 	USART2->CR1 |= (0b000100000);
 
 	// Configure BR
-
-	USART2->BRR = (35);
+	USART2->BRR = (694);
 
 	// Enable  bits
 	USART2->CR1 |= (0b1101);

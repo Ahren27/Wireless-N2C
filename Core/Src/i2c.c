@@ -63,7 +63,7 @@ void I2C_init1() {
 	I2C1->CR1 &= ~I2C_CR1_ANFOFF;
 	I2C1->CR1 &= ~I2C_CR1_NOSTRETCH;
 
-	I2C1->TIMINGR = 0X0000004;
+	I2C1->TIMINGR = 0x10909CEC;
 
 	I2C1->CR1 |= I2C_CR1_PE;
 }
@@ -74,7 +74,7 @@ void I2C_init2() {
 	I2C3->CR1 &= ~I2C_CR1_ANFOFF;
 	I2C3->CR1 &= ~I2C_CR1_NOSTRETCH;
 
-	I2C3->TIMINGR = 0X0000004;
+	I2C3->TIMINGR = 0x10909CEC;
 
 	I2C3->CR1 |= I2C_CR1_PE;
 }
@@ -138,7 +138,7 @@ void N2C_Config1() {
 		step++;
 
 		/* Delay for 1ms */
-		vTaskDelay(pdMS_TO_TICKS(1));
+		vTaskDelay(pdMS_TO_TICKS(10));
 	}
 }
 
@@ -186,7 +186,7 @@ void N2C_Read1(uint8_t *measurments) {
 		;
 
 	/* Delay for 1ms */
-	vTaskDelay(pdMS_TO_TICKS(1));
+	vTaskDelay(pdMS_TO_TICKS(10));
 
 	///// Read Measurements /////
 
@@ -221,7 +221,7 @@ void N2C_Read1(uint8_t *measurments) {
 	I2C1->CR2 |= (I2C_CR2_STOP);
 
 	//HAL_Delay(1);
-	vTaskDelay(pdMS_TO_TICKS(1));
+	vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /******************************* NUNCHUCK #2 ********************************/
@@ -284,7 +284,7 @@ void N2C_Config2() {
 
 		/* Delay for 1ms */
 		//HAL_Delay(1);
-		vTaskDelay(pdMS_TO_TICKS(1));
+		vTaskDelay(pdMS_TO_TICKS(10));
 	}
 }
 
@@ -333,7 +333,7 @@ void N2C_Read2(uint8_t *measurments) {
 
 	/* Delay for 1ms */
 	//HAL_Delay(1);
-	vTaskDelay(pdMS_TO_TICKS(1));
+	vTaskDelay(pdMS_TO_TICKS(10));
 
 	///// Read Measurements /////
 
@@ -368,7 +368,7 @@ void N2C_Read2(uint8_t *measurments) {
 	I2C3->CR2 |= (I2C_CR2_STOP);
 
 	//HAL_Delay(1);
-	vTaskDelay(pdMS_TO_TICKS(1));
+	vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /* Returns the appropriate byte to be sent over I2C */
