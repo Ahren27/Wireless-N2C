@@ -161,61 +161,61 @@ void I2C_GPIO_Init1(void) {
  8000286:	f443 1300 	orr.w	r3, r3, #2097152	@ 0x200000
  800028a:	6593      	str	r3, [r2, #88]	@ 0x58
 
-	// Set Pins 6 and 7 to AF mode
-	GPIOB->MODER &= ~(GPIO_MODER_MODE6 | GPIO_MODER_MODE7);
+	// Set Pins 8 and 9 to AF mode
+	GPIOB->MODER &= ~(GPIO_MODER_MODE8 | GPIO_MODER_MODE9);
  800028c:	4b1b      	ldr	r3, [pc, #108]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
  800028e:	681b      	ldr	r3, [r3, #0]
  8000290:	4a1a      	ldr	r2, [pc, #104]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 8000292:	f423 4370 	bic.w	r3, r3, #61440	@ 0xf000
+ 8000292:	f423 2370 	bic.w	r3, r3, #983040	@ 0xf0000
  8000296:	6013      	str	r3, [r2, #0]
-	GPIOB->MODER |= (GPIO_MODER_MODE6_1 | GPIO_MODER_MODE7_1);
+	GPIOB->MODER |= (GPIO_MODER_MODE8_1 | GPIO_MODER_MODE9_1);
  8000298:	4b18      	ldr	r3, [pc, #96]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
  800029a:	681b      	ldr	r3, [r3, #0]
  800029c:	4a17      	ldr	r2, [pc, #92]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 800029e:	f443 4320 	orr.w	r3, r3, #40960	@ 0xa000
+ 800029e:	f443 2320 	orr.w	r3, r3, #655360	@ 0xa0000
  80002a2:	6013      	str	r3, [r2, #0]
 
-	// Set Pins 6 and 7 to open drain
-	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7);
+	// Set Pins 8 and 9 to open drain
+	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9);
  80002a4:	4b15      	ldr	r3, [pc, #84]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
  80002a6:	685b      	ldr	r3, [r3, #4]
  80002a8:	4a14      	ldr	r2, [pc, #80]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002aa:	f023 03c0 	bic.w	r3, r3, #192	@ 0xc0
+ 80002aa:	f423 7340 	bic.w	r3, r3, #768	@ 0x300
  80002ae:	6053      	str	r3, [r2, #4]
-	GPIOB->OTYPER |= (GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7);
+	GPIOB->OTYPER |= (GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9);
  80002b0:	4b12      	ldr	r3, [pc, #72]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
  80002b2:	685b      	ldr	r3, [r3, #4]
  80002b4:	4a11      	ldr	r2, [pc, #68]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002b6:	f043 03c0 	orr.w	r3, r3, #192	@ 0xc0
+ 80002b6:	f443 7340 	orr.w	r3, r3, #768	@ 0x300
  80002ba:	6053      	str	r3, [r2, #4]
 
-	// Set pints 6 and 7 to high speed
-	GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7);
+	// Set pints 8 and 9 to high speed
+	GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9);
  80002bc:	4b0f      	ldr	r3, [pc, #60]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
  80002be:	689b      	ldr	r3, [r3, #8]
  80002c0:	4a0e      	ldr	r2, [pc, #56]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002c2:	f423 4370 	bic.w	r3, r3, #61440	@ 0xf000
+ 80002c2:	f423 2370 	bic.w	r3, r3, #983040	@ 0xf0000
  80002c6:	6093      	str	r3, [r2, #8]
-	GPIOB->OTYPER |= (GPIO_OSPEEDR_OSPEED6_1 | GPIO_OSPEEDR_OSPEED7_1);
+	GPIOB->OTYPER |= (GPIO_OSPEEDR_OSPEED8_1 | GPIO_OSPEEDR_OSPEED9_1);
  80002c8:	4b0c      	ldr	r3, [pc, #48]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
  80002ca:	685b      	ldr	r3, [r3, #4]
  80002cc:	4a0b      	ldr	r2, [pc, #44]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002ce:	f443 4320 	orr.w	r3, r3, #40960	@ 0xa000
+ 80002ce:	f443 2320 	orr.w	r3, r3, #655360	@ 0xa0000
  80002d2:	6053      	str	r3, [r2, #4]
 
 	// Set AFRL Table
-	GPIOB->AFR[0] &= ~(GPIO_AFRL_AFSEL6 | GPIO_AFRL_AFSEL7);
+	GPIOB->AFR[1] &= ~(GPIO_AFRH_AFSEL8 | GPIO_AFRH_AFSEL9);
  80002d4:	4b09      	ldr	r3, [pc, #36]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002d6:	6a1b      	ldr	r3, [r3, #32]
+ 80002d6:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
  80002d8:	4a08      	ldr	r2, [pc, #32]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002da:	f023 437f 	bic.w	r3, r3, #4278190080	@ 0xff000000
- 80002de:	6213      	str	r3, [r2, #32]
-	GPIOB->AFR[0] |= ((4 << GPIO_AFRL_AFSEL6_Pos) | 4 << GPIO_AFRL_AFSEL7_Pos);
+ 80002da:	f023 03ff 	bic.w	r3, r3, #255	@ 0xff
+ 80002de:	6253      	str	r3, [r2, #36]	@ 0x24
+	GPIOB->AFR[1] |= ((4 << GPIO_AFRH_AFSEL8_Pos) | 4 << GPIO_AFRH_AFSEL9_Pos);
  80002e0:	4b06      	ldr	r3, [pc, #24]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002e2:	6a1b      	ldr	r3, [r3, #32]
+ 80002e2:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
  80002e4:	4a05      	ldr	r2, [pc, #20]	@ (80002fc <I2C_GPIO_Init1+0x8c>)
- 80002e6:	f043 4388 	orr.w	r3, r3, #1140850688	@ 0x44000000
- 80002ea:	6213      	str	r3, [r2, #32]
+ 80002e6:	f043 0344 	orr.w	r3, r3, #68	@ 0x44
+ 80002ea:	6253      	str	r3, [r2, #36]	@ 0x24
 }
  80002ec:	bf00      	nop
  80002ee:	46bd      	mov	sp, r7
@@ -230,76 +230,76 @@ void I2C_GPIO_Init1(void) {
 void I2C_GPIO_Init2(void) {
  8000300:	b480      	push	{r7}
  8000302:	af00      	add	r7, sp, #0
-	// Configure GPIOB for I2C
-	RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOBEN);
+	// Configure GPIOC for I2C
+	RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOCEN);
  8000304:	4b20      	ldr	r3, [pc, #128]	@ (8000388 <I2C_GPIO_Init2+0x88>)
  8000306:	6cdb      	ldr	r3, [r3, #76]	@ 0x4c
  8000308:	4a1f      	ldr	r2, [pc, #124]	@ (8000388 <I2C_GPIO_Init2+0x88>)
- 800030a:	f043 0302 	orr.w	r3, r3, #2
+ 800030a:	f043 0304 	orr.w	r3, r3, #4
  800030e:	64d3      	str	r3, [r2, #76]	@ 0x4c
-	RCC->APB1ENR1 |= (RCC_APB1ENR1_I2C2EN);
+	RCC->APB1ENR1 |= (RCC_APB1ENR1_I2C3EN);
  8000310:	4b1d      	ldr	r3, [pc, #116]	@ (8000388 <I2C_GPIO_Init2+0x88>)
  8000312:	6d9b      	ldr	r3, [r3, #88]	@ 0x58
  8000314:	4a1c      	ldr	r2, [pc, #112]	@ (8000388 <I2C_GPIO_Init2+0x88>)
- 8000316:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 8000316:	f443 0300 	orr.w	r3, r3, #8388608	@ 0x800000
  800031a:	6593      	str	r3, [r2, #88]	@ 0x58
 
-	// Set Pins 10 and 11 to AF mode
-	GPIOB->MODER &= ~(GPIO_MODER_MODE10 | GPIO_MODER_MODE11);
+	// Set Pins 0 and 1 to AF mode
+	GPIOC->MODER &= ~(GPIO_MODER_MODE0 | GPIO_MODER_MODE1);
  800031c:	4b1b      	ldr	r3, [pc, #108]	@ (800038c <I2C_GPIO_Init2+0x8c>)
  800031e:	681b      	ldr	r3, [r3, #0]
  8000320:	4a1a      	ldr	r2, [pc, #104]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 8000322:	f423 0370 	bic.w	r3, r3, #15728640	@ 0xf00000
+ 8000322:	f023 030f 	bic.w	r3, r3, #15
  8000326:	6013      	str	r3, [r2, #0]
-	GPIOB->MODER |= (GPIO_MODER_MODE10_1 | GPIO_MODER_MODE11_1);
+	GPIOC->MODER |= (GPIO_MODER_MODE0_1 | GPIO_MODER_MODE1_1);
  8000328:	4b18      	ldr	r3, [pc, #96]	@ (800038c <I2C_GPIO_Init2+0x8c>)
  800032a:	681b      	ldr	r3, [r3, #0]
  800032c:	4a17      	ldr	r2, [pc, #92]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 800032e:	f443 0320 	orr.w	r3, r3, #10485760	@ 0xa00000
+ 800032e:	f043 030a 	orr.w	r3, r3, #10
  8000332:	6013      	str	r3, [r2, #0]
 
-	// Set Pins 10 and 11 to open drain
-	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT10 | GPIO_OTYPER_OT11);
+	// Set Pins 0 and 1 to open drain
+	GPIOC->OTYPER &= ~(GPIO_OTYPER_OT0 | GPIO_OTYPER_OT1);
  8000334:	4b15      	ldr	r3, [pc, #84]	@ (800038c <I2C_GPIO_Init2+0x8c>)
  8000336:	685b      	ldr	r3, [r3, #4]
  8000338:	4a14      	ldr	r2, [pc, #80]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 800033a:	f423 6340 	bic.w	r3, r3, #3072	@ 0xc00
+ 800033a:	f023 0303 	bic.w	r3, r3, #3
  800033e:	6053      	str	r3, [r2, #4]
-	GPIOB->OTYPER |= (GPIO_OTYPER_OT10 | GPIO_OTYPER_OT11);
+	GPIOC->OTYPER |= (GPIO_OTYPER_OT0 | GPIO_OTYPER_OT1);
  8000340:	4b12      	ldr	r3, [pc, #72]	@ (800038c <I2C_GPIO_Init2+0x8c>)
  8000342:	685b      	ldr	r3, [r3, #4]
  8000344:	4a11      	ldr	r2, [pc, #68]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 8000346:	f443 6340 	orr.w	r3, r3, #3072	@ 0xc00
+ 8000346:	f043 0303 	orr.w	r3, r3, #3
  800034a:	6053      	str	r3, [r2, #4]
 
-	// Set pints 10 and 11 to high speed
-	GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED10 | GPIO_OSPEEDR_OSPEED11);
+	// Set pints 0 and 1 to high speed
+	GPIOC->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED0 | GPIO_OSPEEDR_OSPEED1);
  800034c:	4b0f      	ldr	r3, [pc, #60]	@ (800038c <I2C_GPIO_Init2+0x8c>)
  800034e:	689b      	ldr	r3, [r3, #8]
  8000350:	4a0e      	ldr	r2, [pc, #56]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 8000352:	f423 0370 	bic.w	r3, r3, #15728640	@ 0xf00000
+ 8000352:	f023 030f 	bic.w	r3, r3, #15
  8000356:	6093      	str	r3, [r2, #8]
-	GPIOB->OTYPER |= (GPIO_OSPEEDR_OSPEED10_1 | GPIO_OSPEEDR_OSPEED11_1);
+	GPIOC->OTYPER |= (GPIO_OSPEEDR_OSPEED0_1 | GPIO_OSPEEDR_OSPEED1_1);
  8000358:	4b0c      	ldr	r3, [pc, #48]	@ (800038c <I2C_GPIO_Init2+0x8c>)
  800035a:	685b      	ldr	r3, [r3, #4]
  800035c:	4a0b      	ldr	r2, [pc, #44]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 800035e:	f443 0320 	orr.w	r3, r3, #10485760	@ 0xa00000
+ 800035e:	f043 030a 	orr.w	r3, r3, #10
  8000362:	6053      	str	r3, [r2, #4]
 
 	// Set AFRL Table
-	GPIOB->AFR[1] &= ~(GPIO_AFRH_AFSEL10 | GPIO_AFRH_AFSEL11);
+	GPIOC->AFR[0] &= ~(GPIO_AFRL_AFSEL0 | GPIO_AFRL_AFSEL1);
  8000364:	4b09      	ldr	r3, [pc, #36]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 8000366:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8000366:	6a1b      	ldr	r3, [r3, #32]
  8000368:	4a08      	ldr	r2, [pc, #32]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 800036a:	f423 437f 	bic.w	r3, r3, #65280	@ 0xff00
- 800036e:	6253      	str	r3, [r2, #36]	@ 0x24
-	GPIOB->AFR[1] |=
+ 800036a:	f023 03ff 	bic.w	r3, r3, #255	@ 0xff
+ 800036e:	6213      	str	r3, [r2, #32]
+	GPIOC->AFR[0] |=
  8000370:	4b06      	ldr	r3, [pc, #24]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 8000372:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8000372:	6a1b      	ldr	r3, [r3, #32]
  8000374:	4a05      	ldr	r2, [pc, #20]	@ (800038c <I2C_GPIO_Init2+0x8c>)
- 8000376:	f443 4388 	orr.w	r3, r3, #17408	@ 0x4400
- 800037a:	6253      	str	r3, [r2, #36]	@ 0x24
-			((4 << GPIO_AFRH_AFSEL10_Pos) | 4 << GPIO_AFRH_AFSEL11_Pos);
+ 8000376:	f043 0344 	orr.w	r3, r3, #68	@ 0x44
+ 800037a:	6213      	str	r3, [r2, #32]
+			((4 << GPIO_AFRL_AFSEL0_Pos) | 4 << GPIO_AFRL_AFSEL1_Pos);
 }
  800037c:	bf00      	nop
  800037e:	46bd      	mov	sp, r7
@@ -307,7 +307,7 @@ void I2C_GPIO_Init2(void) {
  8000384:	4770      	bx	lr
  8000386:	bf00      	nop
  8000388:	40021000 	.word	0x40021000
- 800038c:	48000400 	.word	0x48000400
+ 800038c:	48000800 	.word	0x48000800
 
 08000390 <I2C_init1>:
 
@@ -320,7 +320,6 @@ void I2C_init1() {
  8000398:	4a0e      	ldr	r2, [pc, #56]	@ (80003d4 <I2C_init1+0x44>)
  800039a:	f023 0301 	bic.w	r3, r3, #1
  800039e:	6013      	str	r3, [r2, #0]
-	//HAL_Delay(1);
 
 	I2C1->CR1 &= ~I2C_CR1_ANFOFF;
  80003a0:	4b0c      	ldr	r3, [pc, #48]	@ (80003d4 <I2C_init1+0x44>)
@@ -358,33 +357,32 @@ void I2C_init1() {
 void I2C_init2() {
  80003d8:	b480      	push	{r7}
  80003da:	af00      	add	r7, sp, #0
-	I2C2->CR1 &= ~I2C_CR1_PE;
+	I2C3->CR1 &= ~I2C_CR1_PE;
  80003dc:	4b0f      	ldr	r3, [pc, #60]	@ (800041c <I2C_init2+0x44>)
  80003de:	681b      	ldr	r3, [r3, #0]
  80003e0:	4a0e      	ldr	r2, [pc, #56]	@ (800041c <I2C_init2+0x44>)
  80003e2:	f023 0301 	bic.w	r3, r3, #1
  80003e6:	6013      	str	r3, [r2, #0]
-	//HAL_Delay(1);
 
-	I2C2->CR1 &= ~I2C_CR1_ANFOFF;
+	I2C3->CR1 &= ~I2C_CR1_ANFOFF;
  80003e8:	4b0c      	ldr	r3, [pc, #48]	@ (800041c <I2C_init2+0x44>)
  80003ea:	681b      	ldr	r3, [r3, #0]
  80003ec:	4a0b      	ldr	r2, [pc, #44]	@ (800041c <I2C_init2+0x44>)
  80003ee:	f423 5380 	bic.w	r3, r3, #4096	@ 0x1000
  80003f2:	6013      	str	r3, [r2, #0]
-	I2C2->CR1 &= ~I2C_CR1_NOSTRETCH;
+	I2C3->CR1 &= ~I2C_CR1_NOSTRETCH;
  80003f4:	4b09      	ldr	r3, [pc, #36]	@ (800041c <I2C_init2+0x44>)
  80003f6:	681b      	ldr	r3, [r3, #0]
  80003f8:	4a08      	ldr	r2, [pc, #32]	@ (800041c <I2C_init2+0x44>)
  80003fa:	f423 3300 	bic.w	r3, r3, #131072	@ 0x20000
  80003fe:	6013      	str	r3, [r2, #0]
 
-	I2C2->TIMINGR = 0X0000004;
+	I2C3->TIMINGR = 0X0000004;
  8000400:	4b06      	ldr	r3, [pc, #24]	@ (800041c <I2C_init2+0x44>)
  8000402:	2204      	movs	r2, #4
  8000404:	611a      	str	r2, [r3, #16]
 
-	I2C2->CR1 |= I2C_CR1_PE;
+	I2C3->CR1 |= I2C_CR1_PE;
  8000406:	4b05      	ldr	r3, [pc, #20]	@ (800041c <I2C_init2+0x44>)
  8000408:	681b      	ldr	r3, [r3, #0]
  800040a:	4a04      	ldr	r2, [pc, #16]	@ (800041c <I2C_init2+0x44>)
@@ -395,7 +393,7 @@ void I2C_init2() {
  8000414:	46bd      	mov	sp, r7
  8000416:	f85d 7b04 	ldr.w	r7, [sp], #4
  800041a:	4770      	bx	lr
- 800041c:	40005800 	.word	0x40005800
+ 800041c:	40005c00 	.word	0x40005c00
 
 08000420 <N2C_Config1>:
 
@@ -811,13 +809,13 @@ void N2C_Config2() {
  8000660:	f7ff feba 	bl	80003d8 <I2C_init2>
 
 		/* Clear and then set AUTOEND bit to 1 */
-		I2C2->CR2 &= ~(I2C_CR2_AUTOEND);
+		I2C3->CR2 &= ~(I2C_CR2_AUTOEND);
  8000664:	4b33      	ldr	r3, [pc, #204]	@ (8000734 <N2C_Config2+0xec>)
  8000666:	685b      	ldr	r3, [r3, #4]
  8000668:	4a32      	ldr	r2, [pc, #200]	@ (8000734 <N2C_Config2+0xec>)
  800066a:	f023 7300 	bic.w	r3, r3, #33554432	@ 0x2000000
  800066e:	6053      	str	r3, [r2, #4]
-		I2C2->CR2 |= (I2C_CR2_AUTOEND);
+		I2C3->CR2 |= (I2C_CR2_AUTOEND);
  8000670:	4b30      	ldr	r3, [pc, #192]	@ (8000734 <N2C_Config2+0xec>)
  8000672:	685b      	ldr	r3, [r3, #4]
  8000674:	4a2f      	ldr	r2, [pc, #188]	@ (8000734 <N2C_Config2+0xec>)
@@ -826,14 +824,14 @@ void N2C_Config2() {
 
 		/* NBYTES = 2 (Amount of Data Needed to Be Sent) */
 		/* SADD = Slave Address for Nunchuck */
-		I2C2->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+		I2C3->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
  800067c:	4b2d      	ldr	r3, [pc, #180]	@ (8000734 <N2C_Config2+0xec>)
  800067e:	685b      	ldr	r3, [r3, #4]
  8000680:	4a2c      	ldr	r2, [pc, #176]	@ (8000734 <N2C_Config2+0xec>)
  8000682:	f003 23ff 	and.w	r3, r3, #4278255360	@ 0xff00ff00
  8000686:	f423 7340 	bic.w	r3, r3, #768	@ 0x300
  800068a:	6053      	str	r3, [r2, #4]
-		I2C2->CR2 |= (2 << I2C_CR2_NBYTES_Pos);
+		I2C3->CR2 |= (2 << I2C_CR2_NBYTES_Pos);
  800068c:	4b29      	ldr	r3, [pc, #164]	@ (8000734 <N2C_Config2+0xec>)
  800068e:	685b      	ldr	r3, [r3, #4]
  8000690:	4a28      	ldr	r2, [pc, #160]	@ (8000734 <N2C_Config2+0xec>)
@@ -841,7 +839,7 @@ void N2C_Config2() {
  8000696:	6053      	str	r3, [r2, #4]
 
 		/* Write Mode */
-		I2C2->CR2 &= ~I2C_CR2_RD_WRN;
+		I2C3->CR2 &= ~I2C_CR2_RD_WRN;
  8000698:	4b26      	ldr	r3, [pc, #152]	@ (8000734 <N2C_Config2+0xec>)
  800069a:	685b      	ldr	r3, [r3, #4]
  800069c:	4a25      	ldr	r2, [pc, #148]	@ (8000734 <N2C_Config2+0xec>)
@@ -849,7 +847,7 @@ void N2C_Config2() {
  80006a2:	6053      	str	r3, [r2, #4]
 
 		/* Send Slave Address (0x52) */
-		I2C2->CR2 |= (N2C_ADDR << 1);
+		I2C3->CR2 |= (N2C_ADDR << 1);
  80006a4:	4b23      	ldr	r3, [pc, #140]	@ (8000734 <N2C_Config2+0xec>)
  80006a6:	685b      	ldr	r3, [r3, #4]
  80006a8:	4a22      	ldr	r2, [pc, #136]	@ (8000734 <N2C_Config2+0xec>)
@@ -857,7 +855,7 @@ void N2C_Config2() {
  80006ae:	6053      	str	r3, [r2, #4]
 
 		/* Set START bit to 1 */
-		I2C2->CR2 |= I2C_CR2_START;
+		I2C3->CR2 |= I2C_CR2_START;
  80006b0:	4b20      	ldr	r3, [pc, #128]	@ (8000734 <N2C_Config2+0xec>)
  80006b2:	685b      	ldr	r3, [r3, #4]
  80006b4:	4a1f      	ldr	r2, [pc, #124]	@ (8000734 <N2C_Config2+0xec>)
@@ -865,7 +863,7 @@ void N2C_Config2() {
  80006ba:	6053      	str	r3, [r2, #4]
 
 		/* Wait for ACK */
-		while (!(I2C2->ISR & I2C_ISR_TXIS))
+		while (!(I2C3->ISR & I2C_ISR_TXIS))
  80006bc:	bf00      	nop
  80006be:	4b1d      	ldr	r3, [pc, #116]	@ (8000734 <N2C_Config2+0xec>)
  80006c0:	699b      	ldr	r3, [r3, #24]
@@ -883,13 +881,13 @@ void N2C_Config2() {
  80006d4:	717b      	strb	r3, [r7, #5]
 
 		/* Send Data */
-		I2C2->TXDR = data;
+		I2C3->TXDR = data;
  80006d6:	4a17      	ldr	r2, [pc, #92]	@ (8000734 <N2C_Config2+0xec>)
  80006d8:	797b      	ldrb	r3, [r7, #5]
  80006da:	6293      	str	r3, [r2, #40]	@ 0x28
 
 		/* Wait for ACK */
-		while (!(I2C2->ISR & I2C_ISR_TXIS))
+		while (!(I2C3->ISR & I2C_ISR_TXIS))
  80006dc:	bf00      	nop
  80006de:	4b15      	ldr	r3, [pc, #84]	@ (8000734 <N2C_Config2+0xec>)
  80006e0:	699b      	ldr	r3, [r3, #24]
@@ -913,13 +911,13 @@ void N2C_Config2() {
  80006fa:	717b      	strb	r3, [r7, #5]
 
 		/* Send Data */
-		I2C2->TXDR = data;
+		I2C3->TXDR = data;
  80006fc:	4a0d      	ldr	r2, [pc, #52]	@ (8000734 <N2C_Config2+0xec>)
  80006fe:	797b      	ldrb	r3, [r7, #5]
  8000700:	6293      	str	r3, [r2, #40]	@ 0x28
 
 		/* Wait for STOPF */
-		while (!(I2C2->ISR & I2C_ISR_STOPF))
+		while (!(I2C3->ISR & I2C_ISR_STOPF))
  8000702:	bf00      	nop
  8000704:	4b0b      	ldr	r3, [pc, #44]	@ (8000734 <N2C_Config2+0xec>)
  8000706:	699b      	ldr	r3, [r3, #24]
@@ -954,7 +952,7 @@ void N2C_Config2() {
  800072e:	46bd      	mov	sp, r7
  8000730:	bd80      	pop	{r7, pc}
  8000732:	bf00      	nop
- 8000734:	40005800 	.word	0x40005800
+ 8000734:	40005c00 	.word	0x40005c00
 
 08000738 <N2C_Read2>:
 
@@ -975,13 +973,13 @@ void N2C_Read2(uint8_t *measurments) {
 	I2C_init2();
  8000748:	f7ff fe46 	bl	80003d8 <I2C_init2>
 
-	I2C2->CR2 = 0;
+	I2C3->CR2 = 0;
  800074c:	4b47      	ldr	r3, [pc, #284]	@ (800086c <N2C_Read2+0x134>)
  800074e:	2200      	movs	r2, #0
  8000750:	605a      	str	r2, [r3, #4]
 
 	/* Set AUTOEND bit to 1 */
-	I2C2->CR2 |= I2C_CR2_AUTOEND;
+	I2C3->CR2 |= I2C_CR2_AUTOEND;
  8000752:	4b46      	ldr	r3, [pc, #280]	@ (800086c <N2C_Read2+0x134>)
  8000754:	685b      	ldr	r3, [r3, #4]
  8000756:	4a45      	ldr	r2, [pc, #276]	@ (800086c <N2C_Read2+0x134>)
@@ -990,7 +988,7 @@ void N2C_Read2(uint8_t *measurments) {
 
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
-	I2C2->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+	I2C3->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
  800075e:	4b43      	ldr	r3, [pc, #268]	@ (800086c <N2C_Read2+0x134>)
  8000760:	685b      	ldr	r3, [r3, #4]
  8000762:	4a42      	ldr	r2, [pc, #264]	@ (800086c <N2C_Read2+0x134>)
@@ -999,7 +997,7 @@ void N2C_Read2(uint8_t *measurments) {
  800076c:	6053      	str	r3, [r2, #4]
 
 	/* NBYTES = 1 */
-	I2C2->CR2 |= (1 << I2C_CR2_NBYTES_Pos);
+	I2C3->CR2 |= (1 << I2C_CR2_NBYTES_Pos);
  800076e:	4b3f      	ldr	r3, [pc, #252]	@ (800086c <N2C_Read2+0x134>)
  8000770:	685b      	ldr	r3, [r3, #4]
  8000772:	4a3e      	ldr	r2, [pc, #248]	@ (800086c <N2C_Read2+0x134>)
@@ -1007,7 +1005,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000778:	6053      	str	r3, [r2, #4]
 
 	/* Set RD_WRN bit to write */
-	I2C2->CR2 &= ~I2C_CR2_RD_WRN;
+	I2C3->CR2 &= ~I2C_CR2_RD_WRN;
  800077a:	4b3c      	ldr	r3, [pc, #240]	@ (800086c <N2C_Read2+0x134>)
  800077c:	685b      	ldr	r3, [r3, #4]
  800077e:	4a3b      	ldr	r2, [pc, #236]	@ (800086c <N2C_Read2+0x134>)
@@ -1015,7 +1013,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000784:	6053      	str	r3, [r2, #4]
 
 	/* Send Address */
-	I2C2->CR2 |= (N2C_ADDR << 1);
+	I2C3->CR2 |= (N2C_ADDR << 1);
  8000786:	4b39      	ldr	r3, [pc, #228]	@ (800086c <N2C_Read2+0x134>)
  8000788:	685b      	ldr	r3, [r3, #4]
  800078a:	4a38      	ldr	r2, [pc, #224]	@ (800086c <N2C_Read2+0x134>)
@@ -1023,7 +1021,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000790:	6053      	str	r3, [r2, #4]
 
 	/* Set START bit to 1 */
-	I2C2->CR2 |= I2C_CR2_START;
+	I2C3->CR2 |= I2C_CR2_START;
  8000792:	4b36      	ldr	r3, [pc, #216]	@ (800086c <N2C_Read2+0x134>)
  8000794:	685b      	ldr	r3, [r3, #4]
  8000796:	4a35      	ldr	r2, [pc, #212]	@ (800086c <N2C_Read2+0x134>)
@@ -1031,7 +1029,7 @@ void N2C_Read2(uint8_t *measurments) {
  800079c:	6053      	str	r3, [r2, #4]
 
 	/* Wait for ACK */
-	while (!(I2C2->ISR & I2C_ISR_TXIS))
+	while (!(I2C3->ISR & I2C_ISR_TXIS))
  800079e:	bf00      	nop
  80007a0:	4b32      	ldr	r3, [pc, #200]	@ (800086c <N2C_Read2+0x134>)
  80007a2:	699b      	ldr	r3, [r3, #24]
@@ -1049,7 +1047,7 @@ void N2C_Read2(uint8_t *measurments) {
  80007b6:	737b      	strb	r3, [r7, #13]
 
 	/* Send Data */
-	I2C2->TXDR |= data;
+	I2C3->TXDR |= data;
  80007b8:	4b2c      	ldr	r3, [pc, #176]	@ (800086c <N2C_Read2+0x134>)
  80007ba:	6a9a      	ldr	r2, [r3, #40]	@ 0x28
  80007bc:	7b7b      	ldrb	r3, [r7, #13]
@@ -1058,7 +1056,7 @@ void N2C_Read2(uint8_t *measurments) {
  80007c2:	628b      	str	r3, [r1, #40]	@ 0x28
 
 	/* Wait for STOPF */
-	while (!(I2C2->ISR & I2C_ISR_STOPF))
+	while (!(I2C3->ISR & I2C_ISR_STOPF))
  80007c4:	bf00      	nop
  80007c6:	4b29      	ldr	r3, [pc, #164]	@ (800086c <N2C_Read2+0x134>)
  80007c8:	699b      	ldr	r3, [r3, #24]
@@ -1075,17 +1073,17 @@ void N2C_Read2(uint8_t *measurments) {
 
 	///// Read Measurements /////
 
-	I2C2->CR2 &= ~I2C_CR2_AUTOEND;
+	I2C3->CR2 &= ~I2C_CR2_AUTOEND;
  80007d8:	4b24      	ldr	r3, [pc, #144]	@ (800086c <N2C_Read2+0x134>)
  80007da:	685b      	ldr	r3, [r3, #4]
  80007dc:	4a23      	ldr	r2, [pc, #140]	@ (800086c <N2C_Read2+0x134>)
  80007de:	f023 7300 	bic.w	r3, r3, #33554432	@ 0x2000000
  80007e2:	6053      	str	r3, [r2, #4]
 	/* Set AUTOEND bit to 1 */
-	//I2C2 -> CR2 |= I2C_CR2_AUTOEND;
+	//I2C3 -> CR2 |= I2C_CR2_AUTOEND;
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
-	I2C2->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+	I2C3->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
  80007e4:	4b21      	ldr	r3, [pc, #132]	@ (800086c <N2C_Read2+0x134>)
  80007e6:	685b      	ldr	r3, [r3, #4]
  80007e8:	4a20      	ldr	r2, [pc, #128]	@ (800086c <N2C_Read2+0x134>)
@@ -1094,7 +1092,7 @@ void N2C_Read2(uint8_t *measurments) {
  80007f2:	6053      	str	r3, [r2, #4]
 
 	/* NBYTES = 6 */
-	I2C2->CR2 |= (6 << I2C_CR2_NBYTES_Pos);
+	I2C3->CR2 |= (6 << I2C_CR2_NBYTES_Pos);
  80007f4:	4b1d      	ldr	r3, [pc, #116]	@ (800086c <N2C_Read2+0x134>)
  80007f6:	685b      	ldr	r3, [r3, #4]
  80007f8:	4a1c      	ldr	r2, [pc, #112]	@ (800086c <N2C_Read2+0x134>)
@@ -1102,7 +1100,7 @@ void N2C_Read2(uint8_t *measurments) {
  80007fe:	6053      	str	r3, [r2, #4]
 
 	/* Set RD_WRN bit to read */
-	I2C2->CR2 |= I2C_CR2_RD_WRN;
+	I2C3->CR2 |= I2C_CR2_RD_WRN;
  8000800:	4b1a      	ldr	r3, [pc, #104]	@ (800086c <N2C_Read2+0x134>)
  8000802:	685b      	ldr	r3, [r3, #4]
  8000804:	4a19      	ldr	r2, [pc, #100]	@ (800086c <N2C_Read2+0x134>)
@@ -1110,7 +1108,7 @@ void N2C_Read2(uint8_t *measurments) {
  800080a:	6053      	str	r3, [r2, #4]
 
 	/* Send Address */
-	I2C2->CR2 |= (N2C_ADDR << 1);
+	I2C3->CR2 |= (N2C_ADDR << 1);
  800080c:	4b17      	ldr	r3, [pc, #92]	@ (800086c <N2C_Read2+0x134>)
  800080e:	685b      	ldr	r3, [r3, #4]
  8000810:	4a16      	ldr	r2, [pc, #88]	@ (800086c <N2C_Read2+0x134>)
@@ -1118,7 +1116,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000816:	6053      	str	r3, [r2, #4]
 
 	/* Set START bit to 1 */
-	I2C2->CR2 |= I2C_CR2_START;
+	I2C3->CR2 |= I2C_CR2_START;
  8000818:	4b14      	ldr	r3, [pc, #80]	@ (800086c <N2C_Read2+0x134>)
  800081a:	685b      	ldr	r3, [r3, #4]
  800081c:	4a13      	ldr	r2, [pc, #76]	@ (800086c <N2C_Read2+0x134>)
@@ -1130,7 +1128,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000826:	73fb      	strb	r3, [r7, #15]
  8000828:	e010      	b.n	800084c <N2C_Read2+0x114>
 		/* Wait until byte is received */
-		while (!(I2C2->ISR & I2C_ISR_RXNE))
+		while (!(I2C3->ISR & I2C_ISR_RXNE))
  800082a:	bf00      	nop
  800082c:	4b0f      	ldr	r3, [pc, #60]	@ (800086c <N2C_Read2+0x134>)
  800082e:	699b      	ldr	r3, [r3, #24]
@@ -1140,7 +1138,7 @@ void N2C_Read2(uint8_t *measurments) {
 			;
 
 		/* Receive byte */
-		measurments[i] = I2C2->RXDR;
+		measurments[i] = I2C3->RXDR;
  8000838:	4b0c      	ldr	r3, [pc, #48]	@ (800086c <N2C_Read2+0x134>)
  800083a:	6a59      	ldr	r1, [r3, #36]	@ 0x24
  800083c:	7bfb      	ldrb	r3, [r7, #15]
@@ -1157,7 +1155,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000850:	d9eb      	bls.n	800082a <N2C_Read2+0xf2>
 	}
 
-	I2C2->CR2 |= (I2C_CR2_STOP);
+	I2C3->CR2 |= (I2C_CR2_STOP);
  8000852:	4b06      	ldr	r3, [pc, #24]	@ (800086c <N2C_Read2+0x134>)
  8000854:	685b      	ldr	r3, [r3, #4]
  8000856:	4a05      	ldr	r2, [pc, #20]	@ (800086c <N2C_Read2+0x134>)
@@ -1173,7 +1171,7 @@ void N2C_Read2(uint8_t *measurments) {
  8000866:	3710      	adds	r7, #16
  8000868:	46bd      	mov	sp, r7
  800086a:	bd80      	pop	{r7, pc}
- 800086c:	40005800 	.word	0x40005800
+ 800086c:	40005c00 	.word	0x40005c00
 
 08000870 <N2C_data>:
 

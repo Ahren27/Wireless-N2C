@@ -17,49 +17,48 @@ void I2C_GPIO_Init1(void) {
 	RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOBEN);
 	RCC->APB1ENR1 |= (RCC_APB1ENR1_I2C1EN);
 
-	// Set Pins 6 and 7 to AF mode
-	GPIOB->MODER &= ~(GPIO_MODER_MODE6 | GPIO_MODER_MODE7);
-	GPIOB->MODER |= (GPIO_MODER_MODE6_1 | GPIO_MODER_MODE7_1);
+	// Set Pins 8 and 9 to AF mode
+	GPIOB->MODER &= ~(GPIO_MODER_MODE8 | GPIO_MODER_MODE9);
+	GPIOB->MODER |= (GPIO_MODER_MODE8_1 | GPIO_MODER_MODE9_1);
 
-	// Set Pins 6 and 7 to open drain
-	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7);
-	GPIOB->OTYPER |= (GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7);
+	// Set Pins 8 and 9 to open drain
+	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9);
+	GPIOB->OTYPER |= (GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9);
 
-	// Set pints 6 and 7 to high speed
-	GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7);
-	GPIOB->OTYPER |= (GPIO_OSPEEDR_OSPEED6_1 | GPIO_OSPEEDR_OSPEED7_1);
+	// Set pints 8 and 9 to high speed
+	GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9);
+	GPIOB->OTYPER |= (GPIO_OSPEEDR_OSPEED8_1 | GPIO_OSPEEDR_OSPEED9_1);
 
 	// Set AFRL Table
-	GPIOB->AFR[0] &= ~(GPIO_AFRL_AFSEL6 | GPIO_AFRL_AFSEL7);
-	GPIOB->AFR[0] |= ((4 << GPIO_AFRL_AFSEL6_Pos) | 4 << GPIO_AFRL_AFSEL7_Pos);
+	GPIOB->AFR[1] &= ~(GPIO_AFRH_AFSEL8 | GPIO_AFRH_AFSEL9);
+	GPIOB->AFR[1] |= ((4 << GPIO_AFRH_AFSEL8_Pos) | 4 << GPIO_AFRH_AFSEL9_Pos);
 }
 
 void I2C_GPIO_Init2(void) {
-	// Configure GPIOB for I2C
-	RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOBEN);
-	RCC->APB1ENR1 |= (RCC_APB1ENR1_I2C2EN);
+	// Configure GPIOC for I2C
+	RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOCEN);
+	RCC->APB1ENR1 |= (RCC_APB1ENR1_I2C3EN);
 
-	// Set Pins 10 and 11 to AF mode
-	GPIOB->MODER &= ~(GPIO_MODER_MODE10 | GPIO_MODER_MODE11);
-	GPIOB->MODER |= (GPIO_MODER_MODE10_1 | GPIO_MODER_MODE11_1);
+	// Set Pins 0 and 1 to AF mode
+	GPIOC->MODER &= ~(GPIO_MODER_MODE0 | GPIO_MODER_MODE1);
+	GPIOC->MODER |= (GPIO_MODER_MODE0_1 | GPIO_MODER_MODE1_1);
 
-	// Set Pins 10 and 11 to open drain
-	GPIOB->OTYPER &= ~(GPIO_OTYPER_OT10 | GPIO_OTYPER_OT11);
-	GPIOB->OTYPER |= (GPIO_OTYPER_OT10 | GPIO_OTYPER_OT11);
+	// Set Pins 0 and 1 to open drain
+	GPIOC->OTYPER &= ~(GPIO_OTYPER_OT0 | GPIO_OTYPER_OT1);
+	GPIOC->OTYPER |= (GPIO_OTYPER_OT0 | GPIO_OTYPER_OT1);
 
-	// Set pints 10 and 11 to high speed
-	GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED10 | GPIO_OSPEEDR_OSPEED11);
-	GPIOB->OTYPER |= (GPIO_OSPEEDR_OSPEED10_1 | GPIO_OSPEEDR_OSPEED11_1);
+	// Set pints 0 and 1 to high speed
+	GPIOC->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED0 | GPIO_OSPEEDR_OSPEED1);
+	GPIOC->OTYPER |= (GPIO_OSPEEDR_OSPEED0_1 | GPIO_OSPEEDR_OSPEED1_1);
 
 	// Set AFRL Table
-	GPIOB->AFR[1] &= ~(GPIO_AFRH_AFSEL10 | GPIO_AFRH_AFSEL11);
-	GPIOB->AFR[1] |=
-			((4 << GPIO_AFRH_AFSEL10_Pos) | 4 << GPIO_AFRH_AFSEL11_Pos);
+	GPIOC->AFR[0] &= ~(GPIO_AFRL_AFSEL0 | GPIO_AFRL_AFSEL1);
+	GPIOC->AFR[0] |=
+			((4 << GPIO_AFRL_AFSEL0_Pos) | 4 << GPIO_AFRL_AFSEL1_Pos);
 }
 
 void I2C_init1() {
 	I2C1->CR1 &= ~I2C_CR1_PE;
-	//HAL_Delay(1);
 
 	I2C1->CR1 &= ~I2C_CR1_ANFOFF;
 	I2C1->CR1 &= ~I2C_CR1_NOSTRETCH;
@@ -70,15 +69,14 @@ void I2C_init1() {
 }
 
 void I2C_init2() {
-	I2C2->CR1 &= ~I2C_CR1_PE;
-	//HAL_Delay(1);
+	I2C3->CR1 &= ~I2C_CR1_PE;
 
-	I2C2->CR1 &= ~I2C_CR1_ANFOFF;
-	I2C2->CR1 &= ~I2C_CR1_NOSTRETCH;
+	I2C3->CR1 &= ~I2C_CR1_ANFOFF;
+	I2C3->CR1 &= ~I2C_CR1_NOSTRETCH;
 
-	I2C2->TIMINGR = 0X0000004;
+	I2C3->TIMINGR = 0X0000004;
 
-	I2C2->CR1 |= I2C_CR1_PE;
+	I2C3->CR1 |= I2C_CR1_PE;
 }
 
 /******************************* NUNCHUCK #1 ********************************/
@@ -237,35 +235,35 @@ void N2C_Config2() {
 		I2C_init2();
 
 		/* Clear and then set AUTOEND bit to 1 */
-		I2C2->CR2 &= ~(I2C_CR2_AUTOEND);
-		I2C2->CR2 |= (I2C_CR2_AUTOEND);
+		I2C3->CR2 &= ~(I2C_CR2_AUTOEND);
+		I2C3->CR2 |= (I2C_CR2_AUTOEND);
 
 		/* NBYTES = 2 (Amount of Data Needed to Be Sent) */
 		/* SADD = Slave Address for Nunchuck */
-		I2C2->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
-		I2C2->CR2 |= (2 << I2C_CR2_NBYTES_Pos);
+		I2C3->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+		I2C3->CR2 |= (2 << I2C_CR2_NBYTES_Pos);
 
 		/* Write Mode */
-		I2C2->CR2 &= ~I2C_CR2_RD_WRN;
+		I2C3->CR2 &= ~I2C_CR2_RD_WRN;
 
 		/* Send Slave Address (0x52) */
-		I2C2->CR2 |= (N2C_ADDR << 1);
+		I2C3->CR2 |= (N2C_ADDR << 1);
 
 		/* Set START bit to 1 */
-		I2C2->CR2 |= I2C_CR2_START;
+		I2C3->CR2 |= I2C_CR2_START;
 
 		/* Wait for ACK */
-		while (!(I2C2->ISR & I2C_ISR_TXIS))
+		while (!(I2C3->ISR & I2C_ISR_TXIS))
 			;
 
 		/* Get Data */
 		data = N2C_data(step);
 
 		/* Send Data */
-		I2C2->TXDR = data;
+		I2C3->TXDR = data;
 
 		/* Wait for ACK */
-		while (!(I2C2->ISR & I2C_ISR_TXIS))
+		while (!(I2C3->ISR & I2C_ISR_TXIS))
 			;
 
 		/* Increment step (To send 2nd Byte) */
@@ -275,10 +273,10 @@ void N2C_Config2() {
 		data = N2C_data(step);
 
 		/* Send Data */
-		I2C2->TXDR = data;
+		I2C3->TXDR = data;
 
 		/* Wait for STOPF */
-		while (!(I2C2->ISR & I2C_ISR_STOPF))
+		while (!(I2C3->ISR & I2C_ISR_STOPF))
 			;
 
 		/* Increment step (To send 2nd data when byteSender is 0) */
@@ -298,39 +296,39 @@ void N2C_Read2(uint8_t *measurments) {
 
 	I2C_init2();
 
-	I2C2->CR2 = 0;
+	I2C3->CR2 = 0;
 
 	/* Set AUTOEND bit to 1 */
-	I2C2->CR2 |= I2C_CR2_AUTOEND;
+	I2C3->CR2 |= I2C_CR2_AUTOEND;
 
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
-	I2C2->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+	I2C3->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
 
 	/* NBYTES = 1 */
-	I2C2->CR2 |= (1 << I2C_CR2_NBYTES_Pos);
+	I2C3->CR2 |= (1 << I2C_CR2_NBYTES_Pos);
 
 	/* Set RD_WRN bit to write */
-	I2C2->CR2 &= ~I2C_CR2_RD_WRN;
+	I2C3->CR2 &= ~I2C_CR2_RD_WRN;
 
 	/* Send Address */
-	I2C2->CR2 |= (N2C_ADDR << 1);
+	I2C3->CR2 |= (N2C_ADDR << 1);
 
 	/* Set START bit to 1 */
-	I2C2->CR2 |= I2C_CR2_START;
+	I2C3->CR2 |= I2C_CR2_START;
 
 	/* Wait for ACK */
-	while (!(I2C2->ISR & I2C_ISR_TXIS))
+	while (!(I2C3->ISR & I2C_ISR_TXIS))
 		;
 
 	/* Get Data */
 	data = N2C_data(step);
 
 	/* Send Data */
-	I2C2->TXDR |= data;
+	I2C3->TXDR |= data;
 
 	/* Wait for STOPF */
-	while (!(I2C2->ISR & I2C_ISR_STOPF))
+	while (!(I2C3->ISR & I2C_ISR_STOPF))
 		;
 
 	/* Delay for 1ms */
@@ -339,35 +337,35 @@ void N2C_Read2(uint8_t *measurments) {
 
 	///// Read Measurements /////
 
-	I2C2->CR2 &= ~I2C_CR2_AUTOEND;
+	I2C3->CR2 &= ~I2C_CR2_AUTOEND;
 	/* Set AUTOEND bit to 1 */
-	//I2C2 -> CR2 |= I2C_CR2_AUTOEND;
+	//I2C3 -> CR2 |= I2C_CR2_AUTOEND;
 	/* NBYTES = (Amount of Data Needed to Be Sent) */
 	/* SADD = Slave Address for Nunchuck */
-	I2C2->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
+	I2C3->CR2 &= ~((I2C_CR2_NBYTES_Msk) | I2C_CR2_SADD_Msk);
 
 	/* NBYTES = 6 */
-	I2C2->CR2 |= (6 << I2C_CR2_NBYTES_Pos);
+	I2C3->CR2 |= (6 << I2C_CR2_NBYTES_Pos);
 
 	/* Set RD_WRN bit to read */
-	I2C2->CR2 |= I2C_CR2_RD_WRN;
+	I2C3->CR2 |= I2C_CR2_RD_WRN;
 
 	/* Send Address */
-	I2C2->CR2 |= (N2C_ADDR << 1);
+	I2C3->CR2 |= (N2C_ADDR << 1);
 
 	/* Set START bit to 1 */
-	I2C2->CR2 |= I2C_CR2_START;
+	I2C3->CR2 |= I2C_CR2_START;
 
 	for (uint8_t i = 0; i < 6; i++) {
 		/* Wait until byte is received */
-		while (!(I2C2->ISR & I2C_ISR_RXNE))
+		while (!(I2C3->ISR & I2C_ISR_RXNE))
 			;
 
 		/* Receive byte */
-		measurments[i] = I2C2->RXDR;
+		measurments[i] = I2C3->RXDR;
 	}
 
-	I2C2->CR2 |= (I2C_CR2_STOP);
+	I2C3->CR2 |= (I2C_CR2_STOP);
 
 	//HAL_Delay(1);
 	vTaskDelay(pdMS_TO_TICKS(1));
