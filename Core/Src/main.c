@@ -41,9 +41,9 @@
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
+#define NODE_ADDRESS 0x77
+#define TARGET_ADDRESS 0x78
+#define MAX_PAYLOAD_SIZE 96
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
@@ -52,14 +52,12 @@
 
 /* Private variables ---------------------------------------------------------*/
 TaskHandle_t task1Handler, task2Handler, task3Handler;
-SemaphoreHandle_t sendDataSema, transmitMutex;
+SemaphoreHandle_t sendDataSema, radioMutex;
 BaseType_t retVal; // used for checking task creation
-
-// Raw data from I2C Nunchuck 1 (PB8, PB9)
-uint8_t measurments1[6];
-
-// Raw data from I2C Nunchuck 2 (PC0, PC1)
-uint8_t measurments2[6];
+uint8_t measurments1[6]; // Raw data from I2C Nunchuck 1 (PB8, PB9)
+uint8_t measurments2[6]; // Raw data from I2C Nunchuck 2 (PC0, PC1)
+volatile SpiritFlagStatus xTxDoneFlag;
+volatile SpiritFlagStatus xRxDoneFlag;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -67,6 +65,7 @@ void SystemClock_Config(void);
 /* Task function prototypes --------------------------------------------------*/
 void Task1(void *argument);
 void Task2(void *argument);
+void Task3(void *argument);
 
 /**
  * @brief  The application entry point.
@@ -85,10 +84,13 @@ int main(void) {
 	MX_GPIO_Init();
 	MX_SPI1_Init();
 
+	/* Set up Spirit */
+	SPSGRF_Init();
+
 	/* Set up RTOS */
 
 	/* Create the tasks */
-	retVal = xTaskCreate(Task1, "Set Up Program", configMINIMAL_STACK_SIZE * 2,
+	retVal = xTaskCreate(Task1, "Set Up Program", configMINIMAL_STACK_SIZE,
 	NULL, osPriorityHigh, &task1Handler);
 	if (retVal != pdPASS) {
 		while (1)
@@ -101,8 +103,8 @@ int main(void) {
 			;
 	} // check if binary semaphore creation failed
 
-	transmitMutex = xSemaphoreCreateMutex();
-	if (transmitMutex == NULL) {
+	radioMutex = xSemaphoreCreateMutex();
+	if (radioMutex == NULL) {
 		while (1)
 			;
 	} // check if mutex creation failed
@@ -130,8 +132,17 @@ void Task1(void *argument) {
 		N2C_Config1();
 		N2C_Config2();
 
-		retVal = xTaskCreate(Task2, "Send Data", configMINIMAL_STACK_SIZE * 2,
+		retVal = xTaskCreate(Task2, "Read and Decode Data",
+		configMINIMAL_STACK_SIZE,
 		NULL, osPriorityNormal, &task2Handler);
+		if (retVal != pdPASS) {
+			while (1)
+				;
+		} // check if task creation failed
+
+		retVal = xTaskCreate(Task3, "Transmit Data",
+		configMINIMAL_STACK_SIZE,
+		NULL, osPriorityNormal, &task3Handler);
 		if (retVal != pdPASS) {
 			while (1)
 				;
@@ -142,15 +153,21 @@ void Task1(void *argument) {
 	}
 }
 
-/* Send Data */
+/* Read and Decode Data */
 void Task2(void *argument) {
 	// Infinite Loop
 	for (;;) {
-		// Get measurements for Nunchuck #1
-		N2C_Read1(measurments1);
+		// Take the mutex before starting the transmission
+		if (xSemaphoreTake(radioMutex, portMAX_DELAY) == pdTRUE) {
+			// Get measurements for Nunchuck #1
+			N2C_Read1(measurments1);
 
-		// Get measurements for Nunchuck #2
-		N2C_Read2(measurments2);
+			// Get measurements for Nunchuck #2
+			N2C_Read2(measurments2);
+
+			// Release the mutex after transmission
+			xSemaphoreGive(radioMutex);
+		}
 
 		// Decode Raw Bytes Measurement into Global Variables
 		split_data(measurments1, measurments2);
@@ -160,6 +177,60 @@ void Task2(void *argument) {
 
 		// Wait for 5ms
 		vTaskDelay(5 / portTICK_PERIOD_MS);
+	}
+}
+
+/* Transmit Data */
+void Task3(void *argument) {
+	// Create payload
+	uint8_t payload[MAX_PAYLOAD_SIZE];
+
+	// Infinite Loop
+	for (;;) {
+		// Reset Tx flag
+		xTxDoneFlag = S_RESET;
+
+		// Acknowledgment ping
+		payload[0] = 0xFF;
+
+		// Take the mutex before starting the transmission
+		if (xSemaphoreTake(radioMutex, portMAX_DELAY) == pdTRUE) {
+			SpiritGotoReadyState();
+
+			// Set source and destination addresses
+			SpiritPktStackSetMyAddress(NODE_ADDRESS);
+			SpiritPktStackSetDestinationAddress(TARGET_ADDRESS);
+
+			SPSGRF_StartTx(payload, sizeof(payload));
+			while (!xTxDoneFlag)
+				;
+
+			// Release the mutex after transmission
+			xSemaphoreGive(radioMutex);
+		}
+
+		// Wait for 5ms
+		vTaskDelay(5 / portTICK_PERIOD_MS);
+	}
+}
+
+/* Callback to handle external interrupts */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	SpiritIrqs xIrqStatus;
+
+	if (GPIO_Pin != SPIRIT1_GPIO3_Pin) {
+		return;
+	}
+
+	SpiritIrqGetStatus(&xIrqStatus);
+	if (xIrqStatus.IRQ_TX_DATA_SENT) {
+		xTxDoneFlag = S_SET;
+	}
+	if (xIrqStatus.IRQ_RX_DATA_READY) {
+		xRxDoneFlag = S_SET;
+	}
+	if (xIrqStatus.IRQ_RX_DATA_DISC || xIrqStatus.IRQ_RX_TIMEOUT) {
+		SpiritCmdStrobeRx();
 	}
 }
 
