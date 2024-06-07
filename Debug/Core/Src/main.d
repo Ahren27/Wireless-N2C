@@ -23,6 +23,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
@@ -36,12 +38,36 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ ../Core/Inc/spi.h ../Core/Inc/main.h ../Core/Inc/gpio.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- ../Core/Inc/i2c.h ../Core/Inc/uart.h ../Core/Inc/dataMeasurements.h
+ ../Core/Inc/i2c.h ../Core/Inc/uart.h ../Core/Inc/dataMeasurements.h \
+ ../Core/Inc/spsgrf.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Config.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Regs.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Aes.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Types.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Calibration.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Commands.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Csma.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_DirectRF.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_General.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Gpio.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Irq.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Timer.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_LinearFifo.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktBasic.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktCommon.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktMbus.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktStack.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Qi.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Radio.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Config.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/MCU_Interface.h \
+ C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Management.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
@@ -67,6 +93,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
@@ -80,6 +108,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../Core/Inc/spi.h:
+../Core/Inc/main.h:
+../Core/Inc/gpio.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
@@ -88,3 +119,26 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/i2c.h:
 ../Core/Inc/uart.h:
 ../Core/Inc/dataMeasurements.h:
+../Core/Inc/spsgrf.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Config.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Regs.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Aes.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Types.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Calibration.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Commands.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Csma.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_DirectRF.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_General.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Gpio.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Irq.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Timer.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_LinearFifo.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktBasic.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktCommon.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktMbus.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_PktStack.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Qi.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Radio.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Config.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/MCU_Interface.h:
+C:/Users/ahren/STM32CubeIDE/workspace_1.15.0/Wireless_N2C/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Management.h:

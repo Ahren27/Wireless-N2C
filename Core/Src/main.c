@@ -19,6 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "spi.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 #include <stdio.h>
@@ -31,6 +33,7 @@
 #include "i2c.h"
 #include "uart.h"
 #include "dataMeasurements.h"
+#include "spsgrf.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
@@ -50,11 +53,12 @@
 /* Private variables ---------------------------------------------------------*/
 TaskHandle_t task1Handler, task2Handler, task3Handler;
 SemaphoreHandle_t sendDataSema, transmitMutex;
+BaseType_t retVal; // used for checking task creation
 
-// Raw data from I2C Nunchuck 1 (PB8, PB9) */
+// Raw data from I2C Nunchuck 1 (PB8, PB9)
 uint8_t measurments1[6];
 
-// Raw data from I2C Nunchuck 2 (PC0, PC1) */
+// Raw data from I2C Nunchuck 2 (PC0, PC1)
 uint8_t measurments2[6];
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,8 +67,6 @@ void SystemClock_Config(void);
 /* Task function prototypes --------------------------------------------------*/
 void Task1(void *argument);
 void Task2(void *argument);
-
-BaseType_t retVal; // used for checking task creation
 
 /**
  * @brief  The application entry point.
@@ -78,6 +80,10 @@ int main(void) {
 
 	/* Configure the system clock */
 	SystemClock_Config();
+
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_SPI1_Init();
 
 	/* Set up RTOS */
 
