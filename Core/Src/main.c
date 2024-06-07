@@ -183,12 +183,15 @@ void Task2(void *argument) {
 /* Transmit Data */
 void Task3(void *argument) {
 	// Create payload
-	uint8_t payload[MAX_PAYLOAD_SIZE];
+	uint8_t payload[MAX_PAYLOAD_SIZE] = { 0 };
 
 	// Infinite Loop
 	for (;;) {
 		// Reset Tx flag
 		xTxDoneFlag = S_RESET;
+
+		// Clear payload
+		memset(payload, 0, sizeof(payload));
 
 		// Take the mutex before starting the transmission
 		if (xSemaphoreTake(radioMutex, portMAX_DELAY) == pdTRUE) {
