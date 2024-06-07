@@ -1,3 +1,4 @@
+"./Core/Src/dataMeasurements.o"
 "./Core/Src/freertos.o"
 "./Core/Src/i2c.o"
 "./Core/Src/main.o"
