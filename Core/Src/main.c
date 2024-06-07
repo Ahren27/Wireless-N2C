@@ -170,10 +170,10 @@ void Task2(void *argument) {
 		}
 
 		// Decode Raw Bytes Measurement into Global Variables
-		split_data(measurments1, measurments2);
+		// split_data(measurments1, measurments2);
 
 		// Uploads data to serial port
-		print_data();
+		// print_data();
 
 		// Wait for 5ms
 		vTaskDelay(5 / portTICK_PERIOD_MS);
@@ -190,11 +190,14 @@ void Task3(void *argument) {
 		// Reset Tx flag
 		xTxDoneFlag = S_RESET;
 
-		// Acknowledgment ping
-		payload[0] = 0xFF;
-
 		// Take the mutex before starting the transmission
 		if (xSemaphoreTake(radioMutex, portMAX_DELAY) == pdTRUE) {
+			// Pack the raw measurements data into the payload
+			memcpy(payload, measurments1, sizeof(measurments1));
+			memcpy(payload + sizeof(measurments1), measurments2,
+					sizeof(measurments2));
+
+			// Force the Spirit to go into a ready state
 			SpiritGotoReadyState();
 
 			// Set source and destination addresses
